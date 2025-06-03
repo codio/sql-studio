@@ -646,7 +646,7 @@ mod sqlite {
                         .map(|(name, count)| responses::Count { name, count })
                         .collect::<Vec<_>>();
 
-                    counts.sort_by_key(|r| r.count);
+                    counts.sort_by_key(|r| r.name.clone());
 
                     Ok(counts)
                 })
@@ -1151,7 +1151,7 @@ mod libsql {
                 .map(|(name, count)| responses::Count { name, count })
                 .collect::<Vec<_>>();
 
-            tables.sort_by_key(|r| r.name);
+            tables.sort_by_key(|r| r.name.clone());
 
             Ok(responses::Tables { tables })
         }
@@ -1497,8 +1497,8 @@ mod postgres {
                 .query_one(
                     &format!(
                         r#"
-            SELECT count(*) 
-            FROM pg_indexes 
+            SELECT count(*)
+            FROM pg_indexes
             WHERE schemaname = '{schema}'
                        "#
                     ),
@@ -2394,8 +2394,8 @@ mod duckdb {
             let tables = tokio::task::spawn_blocking(move || {
                 let tables: i32 = c.query_row(
                     r#"
-                SELECT count(*) 
-                FROM information_schema.tables 
+                SELECT count(*)
+                FROM information_schema.tables
                 WHERE table_schema = 'main' AND table_type = 'BASE TABLE'
                     "#,
                     [],
@@ -2440,8 +2440,8 @@ mod duckdb {
 
                     let tables: i32 = c.query_row(
                         r#"
-                    SELECT count(*) 
-                    FROM information_schema.tables 
+                    SELECT count(*)
+                    FROM information_schema.tables
                     WHERE table_schema = 'main' AND table_type = 'BASE TABLE'
                     "#,
                         [],
@@ -2852,7 +2852,7 @@ mod clickhouse {
                     r#"
             SELECT count(*)
             FROM system.columns
-            WHERE database = currentDatabase() 
+            WHERE database = currentDatabase()
             AND (is_in_primary_key = true OR is_in_sorting_key = true)
                     "#,
                 )
@@ -2867,7 +2867,7 @@ mod clickhouse {
                     r#"
             SELECT count(*)
             FROM system.tables
-            WHERE database = currentDatabase() 
+            WHERE database = currentDatabase()
             AND engine = 'View'
                     "#,
                 )
@@ -2936,7 +2936,7 @@ mod clickhouse {
                         r#"
                 SELECT count(*)
                 FROM system.columns
-                WHERE database = currentDatabase() 
+                WHERE database = currentDatabase()
                 AND table = ?
                 AND (is_in_primary_key = true OR is_in_sorting_key = true)
                         "#,
@@ -3039,7 +3039,7 @@ mod clickhouse {
                     r#"
             SELECT count(*)
             FROM system.columns
-            WHERE database = currentDatabase() 
+            WHERE database = currentDatabase()
             AND table = ?
             AND (is_in_primary_key = true OR is_in_sorting_key = true)
                     "#,
