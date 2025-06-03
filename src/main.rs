@@ -1151,7 +1151,7 @@ mod libsql {
                 .map(|(name, count)| responses::Count { name, count })
                 .collect::<Vec<_>>();
 
-            tables.sort_by_key(|r| r.count);
+            tables.sort_by_key(|r| r.name);
 
             Ok(responses::Tables { tables })
         }
