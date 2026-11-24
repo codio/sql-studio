@@ -35,12 +35,12 @@
     "recharts": "^2.13.0-alpha.4",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.23.8",
+    "zod": "^4.6.7",
     "zod-fetch": "^0.1.1"
   },
   "devDependencies": {
     "@tanstack/router-devtools": "^1.35.3",
-    "@tanstack/router-vite-plugin": "^1.35.4",
+    "@tanstack/router-vite-plugin": "^1.167.49",
     "@types/node": "^20.14.2",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
